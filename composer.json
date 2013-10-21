@@ -1,6 +1,6 @@
 {
     "name": "thatzad/birder",
-    "description": "Feed (Atom and RSS) generator for Laravel 4",
+    "description": "Feed generation from Tweets",
     "keywords": ["tweet", "feed"],
     "license": "MIT",
     "authors": [
