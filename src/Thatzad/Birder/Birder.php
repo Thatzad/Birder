@@ -86,6 +86,7 @@ class Birder {
             'screen_name'     => $this->value,
             'include_rts'     => false,
             'exclude_replies' => true,
+            'count'           => 200,
             'trim_user'       => false
         )));
     }
@@ -98,6 +99,7 @@ class Birder {
     {
         $this->setTweets($this->twitter->getSearch(array(
             'q'           => '#'.$this->value,
+            'count'       => 100,
             'result_type' => 'recent'
         ))->statuses);
     }
