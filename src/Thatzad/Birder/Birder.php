@@ -67,7 +67,7 @@ class Birder {
         $filteredTweets = array();
 
         foreach ($tweets as $tweet) {
-            if ($tweet->retweet_count > $config['min_rts'] or $tweet->favorite_count > $config['min_favs']) {
+            if ($tweet->retweet_count >= $config['min_rts'] or $tweet->favorite_count >= $config['min_favs']) {
                 $filteredTweets[] = $tweet;
             }
         }
