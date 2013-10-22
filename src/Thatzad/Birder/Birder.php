@@ -84,7 +84,7 @@ class Birder {
     {
         $this->setTweets($this->twitter->getUserTimeline(array(
             'screen_name'     => $this->value,
-            'inclide_rts'     => false,
+            'include_rts'     => false,
             'exclude_replies' => true,
             'trim_user'       => false
         )));
