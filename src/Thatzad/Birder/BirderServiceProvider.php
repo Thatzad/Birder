@@ -1,5 +1,6 @@
 <?php namespace Thatzad\Birder;
 
+use App;
 use Config;
 use Illuminate\Support\ServiceProvider;
 
@@ -29,6 +30,9 @@ class BirderServiceProvider extends ServiceProvider {
 	 */
 	public function register()
 	{
+		// Larafeed Service Provider
+		App::register('DotZecker\Larafeed\LarafeedServiceProvider');
+
 		$this->app['birder'] = $this->app->share(function($app)
         {
         	$config = array(
