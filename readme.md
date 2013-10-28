@@ -18,10 +18,12 @@ Once this operation completes, the next step is to add the service provider. Ope
 
     'Thatzad\Birder\BirderServiceProvider'
 
-Finally, you have to add the alias in the aliases array.
+And add the alias.
 
     'Birder' => 'Thatzad\Birder\Facades\Birder'
 
+Finally you'll need to publish the config file. To do that, in the project folder execute `php artisan config:publish thatzad/birder`.
+This will output the configuration in `app/config/packages/thatzad/birder/config.php`, in this file you must to fill all twitter fields.
 
 ## Usage
 # UNDER CONSTRUCTION

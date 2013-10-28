@@ -27,7 +27,7 @@ class Birder {
     public function __construct(Twitter $twitter)
     {
         $this->twitter = $twitter;
-        $this->config  = Config::get('birder.general');
+        $this->config  = Config::get('birder::general');
     }
 
 
@@ -36,6 +36,9 @@ class Birder {
      */
     public function user($user)
     {
+        // Remove the @
+        if (strstr($user, '@')) $user = substr($user, 1, strlen($user));
+
         $this->type  = 'user';
         $this->value = $user;
 
@@ -67,9 +70,13 @@ class Birder {
         $filteredTweets = array();
 
         foreach ($tweets as $tweet) {
-            if ($tweet->retweet_count >= $config['min_rts'] or $tweet->favorite_count >= $config['min_favs']) {
-                $filteredTweets[] = $tweet;
-            }
+
+            $condition = ($config['condition'] == 'or')
+                ? ($tweet->retweet_count >= $config['min_rts'] or $tweet->favorite_count >= $config['min_favs'])
+                : ($tweet->retweet_count >= $config['min_rts'] and $tweet->favorite_count >= $config['min_favs']);
+
+            if ($condition) $filteredTweets[] = $tweet;
+
         }
 
         $tweets = new Collection($filteredTweets);
