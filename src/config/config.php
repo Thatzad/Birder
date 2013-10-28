@@ -2,9 +2,7 @@
 
 return array(
     'general' => array(
-        'min_rts'   => '10',
-        'min_favs'  => '5',
-        'condition' => 'or'
+        // Soon
     ),
     'twitter' => array(
         'consumer_key'        => '',

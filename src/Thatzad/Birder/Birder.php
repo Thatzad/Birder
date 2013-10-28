@@ -1,10 +1,10 @@
 <?php namespace Thatzad\Birder;
 
 use URL;
-use Config;
 use Thujohn\Twitter\Twitter;
 use Illuminate\Support\Collection;
 use DotZecker\Larafeed\Larafeed as Feed;
+use Thatzad\Birder\Exceptions\BirderException;
 
 class Birder {
 
@@ -19,6 +19,28 @@ class Birder {
     protected $value;
 
     /**
+     * Conditions to filter by
+     */
+    protected $conditions = array(
+        'condition' => 'and',
+        'retweets'  => array('operator' => '>=', 'value' => 0),
+        'favorites' => array('operator' => '>=', 'value' => 0)
+    );
+
+    /**
+     * Permissed filters and aliases
+     */
+    protected $filterBy = array(
+        'retweets'  => array('retweets', 'rts'),
+        'favorites' => array('favorites', 'favourites', 'favs')
+    );
+
+    /**
+     * Permissed operators
+     */
+    protected $operators = array('<', '<=', '=', '>=', '>');
+
+    /**
      * Found tweets
      */
     protected $tweets;
@@ -27,7 +49,6 @@ class Birder {
     public function __construct(Twitter $twitter)
     {
         $this->twitter = $twitter;
-        $this->config  = Config::get('birder::general');
     }
 
 
@@ -65,15 +86,17 @@ class Birder {
      */
     protected function setTweets($tweets)
     {
-        $config = $this->config;
-
         $filteredTweets = array();
 
         foreach ($tweets as $tweet) {
 
-            $condition = ($config['condition'] == 'or')
-                ? ($tweet->retweet_count >= $config['min_rts'] or $tweet->favorite_count >= $config['min_favs'])
-                : ($tweet->retweet_count >= $config['min_rts'] and $tweet->favorite_count >= $config['min_favs']);
+            $rtTweet = doOperation($tweet->retweet_count, $this->conditions['retweets']['operator'], $this->conditions['retweets']['value']);
+
+            $favTweet = doOperation($tweet->favorite_count, $this->conditions['favorites']['operator'], $this->conditions['favorites']['value']);
+
+            $condition = ($this->conditions['condition'] == 'or')
+                ? ($rtTweet or $favTweet)
+                : ($rtTweet and $favTweet);
 
             if ($condition) $filteredTweets[] = $tweet;
 
@@ -145,29 +168,36 @@ class Birder {
      * Return the tweets collection
      * @return Collection
      */
-    public function collection()
+    public function get()
     {
         $this->{'generateTweetsBy'.ucfirst($this->type)}();
 
         return $this->tweets;
     }
 
-    /**
-     * Set the min rts
-     */
-    public function minRetweets($num)
-    {
-        $this->config['min_rts'] = $num;
 
-        return $this;
-    }
-
-    /**
-     * Set the min favs
-     */
-    public function minFavorites($num)
+    public function with($type, $operator = '=', $value = null)
     {
-        $this->config['min_favs'] = $num;
+        // If it used by this way: ´->with('retweets', 12);´
+        if (is_null($value)) {
+            $value = $operator;
+            $operator = '=';
+        }
+
+        // @todo Integrate illuminate validation service
+        if ( ! $type = array_search_recursive($type, $this->filterBy, true))
+            throw new BirderException("{$type} is not a valid type" , 1);
+
+        if ( ! in_array($operator, $this->operators))
+            throw new BirderException("{$operator} is not a valid operator" , 1);
+
+        if ( ! is_int($value))
+            throw new BirderException("The value must be numeric, {$operator} given" , 1);
+
+        $this->conditions[$type] = array(
+            'operator' => $operator,
+            'value'    => $value
+        );
 
         return $this;
     }

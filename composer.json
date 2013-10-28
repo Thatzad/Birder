@@ -20,7 +20,11 @@
     "autoload": {
         "psr-0": {
             "Thatzad\\Birder": "src/"
-        }
+        },
+        "files": [
+            "src/Thatzad/Birder/helpers.php"
+        ]
+
     },
     "minimum-stability": "stable"
 }
