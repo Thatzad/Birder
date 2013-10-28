@@ -38,7 +38,7 @@ class Birder {
     /**
      * Permissed operators
      */
-    protected $operators = array('<', '<=', '=', '>=', '>');
+    protected $operators = array('<', '<=', '=', '>=', '>', '!=');
 
     /**
      * Found tweets
@@ -90,9 +90,9 @@ class Birder {
 
         foreach ($tweets as $tweet) {
 
-            $rtTweet = doOperation($tweet->retweet_count, $this->conditions['retweets']['operator'], $this->conditions['retweets']['value']);
+            $rtTweet = doComparison($tweet->retweet_count, $this->conditions['retweets']['operator'], $this->conditions['retweets']['value']);
 
-            $favTweet = doOperation($tweet->favorite_count, $this->conditions['favorites']['operator'], $this->conditions['favorites']['value']);
+            $favTweet = doComparison($tweet->favorite_count, $this->conditions['favorites']['operator'], $this->conditions['favorites']['value']);
 
             $condition = ($this->conditions['condition'] == 'or')
                 ? ($rtTweet or $favTweet)
@@ -176,7 +176,7 @@ class Birder {
     }
 
 
-    public function with($type, $operator = '=', $value = null)
+    public function where($type, $operator = '=', $value = null)
     {
         // If it used by this way: ´->with('retweets', 12);´
         if (is_null($value)) {
@@ -200,6 +200,27 @@ class Birder {
         );
 
         return $this;
+    }
+
+    public function __call($method, $args)
+    {
+        if (starts_with($method, 'Or')) {
+            $this->conditions['condition'] = 'or';
+            $method =  ucfirst(str_replace('Or', '', $method));
+        }
+
+        $method = lcfirst($method);
+
+        if (starts_with($method, 'where')) {
+            $filterBy = lcfirst(str_replace('where', '', $method));
+            $args = array($filterBy, '=', $args[0]);
+
+            return call_user_func_array(array($this, 'where'), $args);
+        }
+
+        throw new BirderException("Method {$method} does not exists", 1);
+
+
     }
 
 }

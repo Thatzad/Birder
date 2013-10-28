@@ -31,17 +31,24 @@ function array_search_recursive($needle, $haystack, $firstKey = false)
     return false;
 }
 
-
-function doOperation($a, $operator, $b)
+/**
+ * Do a comparision
+ * @param  int $a
+ * @param  string $operator
+ * @param  int $b
+ * @return boolean
+ */
+function doComparison($a, $operator, $b)
 {
     switch ($operator) {
         case '<':  return ($a <  $b); break;
         case '<=': return ($a <= $b); break;
-        case '=':  return ($a == $b); break;
+        case '=':  return ($a == $b); break; // SQL way
+        case '==': return ($a == $b); break;
+        case '!=': return ($a != $b); break;
         case '>=': return ($a >= $b); break;
         case '>':  return ($a >  $b); break;
     }
 
-    throw new Exception("The operator {$operatos} doesn't exist", 1);
-
+    throw new Exception("The {$operator} operator does not exists", 1);
 }
