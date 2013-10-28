@@ -140,7 +140,7 @@ class Birder {
      */
     public function makeFeed()
     {
-        $this->{'generateTweetsBy'.ucfirst($this->type)}();
+        $tweets = $this->get();
 
         $feed = new Feed('atom', array(
             'title' => "Generated tweets looking for {$this->type} {$this->value}",
@@ -150,7 +150,7 @@ class Birder {
 
         $feed->addAuthor('Birder');
 
-        $this->tweets->each(function($tweet) use ($feed)
+        $tweets->each(function($tweet) use ($feed)
         {
             $feed->addEntry(array(
                 'title'   => $tweet->id_str,
@@ -202,6 +202,15 @@ class Birder {
         return $this;
     }
 
+
+    /**
+     * Magic to enable do:
+     *     ->whereFavorites(3)
+     *     ->orWhereRetweets(8)
+     * @param  $method
+     * @param  $args
+     * @return executed method
+     */
     public function __call($method, $args)
     {
         if (starts_with($method, 'Or')) {
@@ -219,7 +228,6 @@ class Birder {
         }
 
         throw new BirderException("Method {$method} does not exists", 1);
-
 
     }
 
