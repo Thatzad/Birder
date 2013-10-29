@@ -56,7 +56,7 @@ You can use:
 
 `->where('retweets' ...)`, `->where('rts' ...)`, `->whereRts(...)`, ...
 
-# Use this with IFTTT
+## Using with IFTTT
 
 We build Birder to avoid Twitter's IFTTT limits integrations.
 The way we thought this was to use the RSS IFTTT trigger to "imitate" a Twitter timeline. So, if you want to Tweet automatically all tweets @Thatzad account does, you are able to do:
