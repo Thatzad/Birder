@@ -1,7 +1,7 @@
 {
     "name": "thatzad/birder",
-    "description": "Feed generation from Tweets",
-    "keywords": ["tweet", "feed"],
+    "description": "Get and filter Tweets (by @user or #hashtag) in a Laravel Way",
+    "keywords": ["tweet", "twitter", "filter", "laravel"],
     "license": "MIT",
     "authors": [
         {
@@ -9,6 +9,12 @@
             "email": "dotzecker@gmail.com",
             "role": "Developer",
             "homepage": "http://rafa.im"
+        },
+        {
+            "name": "Iván Gallego Sánchez",
+            "email": "ivan.gallego@thatzad.com",
+            "role": "Lead developer",
+            "homepage": "http://www.thatzad.com"
         }
     ],
     "require": {
