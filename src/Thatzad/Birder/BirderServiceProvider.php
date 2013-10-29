@@ -30,12 +30,12 @@ class BirderServiceProvider extends ServiceProvider {
 	 */
 	public function register()
 	{
-		// Larafeed Service Provider
-		App::register('DotZecker\Larafeed\LarafeedServiceProvider');
-
 		$this->app['birder'] = $this->app->share(function($app)
         {
-        	$birderConfig = Config::get('birder::twitter');
+        	// Larafeed Service Provider
+        	$app->register('DotZecker\Larafeed\LarafeedServiceProvider');
+
+        	$birderConfig = $app['config']['birder::twitter'];
         	$config = array(
 				'consumer_key'    => $birderConfig['consumer_key'],
 				'consumer_secret' => $birderConfig['consumer_secret'],
@@ -45,7 +45,8 @@ class BirderServiceProvider extends ServiceProvider {
         	);
 
         	// Set the Twitter api version
-        	Config::set('twitter::API_VERSION', '1.1');
+        	// I don't like to do this, but that package was build by this way...
+        	$app['config']['twitter::API_VERSION'] = '1.1';
 
             return new Birder(new \Thujohn\Twitter\Twitter($config));
         });
