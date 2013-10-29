@@ -35,12 +35,13 @@ class BirderServiceProvider extends ServiceProvider {
 
 		$this->app['birder'] = $this->app->share(function($app)
         {
+        	$birderConfig = Config::get('birder::twitter');
         	$config = array(
-				'consumer_key'    => Config::get('birder::twitter.consumer_key'),
-				'consumer_secret' => Config::get('birder::twitter.consumer_secret'),
-				'token'           => Config::get('birder::twitter.access_token'),
-				'secret'          => Config::get('birder::twitter.access_token_secret'),
-				'use_ssl'         => Config::get('birder::twitter.use_ssl')
+				'consumer_key'    => $birderConfig['consumer_key'],
+				'consumer_secret' => $birderConfig['consumer_secret'],
+				'token'           => $birderConfig['access_token'],
+				'secret'          => $birderConfig['access_token_secret'],
+				'use_ssl'         => $birderConfig['use_ssl']
         	);
 
         	// Set the Twitter api version

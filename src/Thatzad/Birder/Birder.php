@@ -175,10 +175,16 @@ class Birder {
         return $this->tweets;
     }
 
-
+    /**
+     * Filter tweets
+     * @param  string $type
+     * @param  string $operator
+     * @param  int    $value
+     * @return Birder
+     */
     public function where($type, $operator = '=', $value = null)
     {
-        // If it used by this way: ´->with('retweets', 12);´
+        // If it used by this way: ´->where('retweets', 12);´
         if (is_null($value)) {
             $value = $operator;
             $operator = '=';
@@ -202,7 +208,6 @@ class Birder {
         return $this;
     }
 
-
     /**
      * Magic to enable do:
      *     ->whereFavorites(3)
@@ -213,21 +218,21 @@ class Birder {
      */
     public function __call($method, $args)
     {
-        if (starts_with($method, 'Or')) {
+        if (starts_with($method, 'or')) {
             $this->conditions['condition'] = 'or';
-            $method =  ucfirst(str_replace('Or', '', $method));
+            $method = ucfirst(substr($method, 2, strlen($method)));
         }
 
         $method = lcfirst($method);
 
         if (starts_with($method, 'where')) {
-            $filterBy = lcfirst(str_replace('where', '', $method));
+            $filterBy = lcfirst(substr($method, 5, strlen($method)));
             $args = array($filterBy, '=', $args[0]);
 
             return call_user_func_array(array($this, 'where'), $args);
         }
 
-        throw new BirderException("Method {$method} does not exists", 1);
+        throw new BirderException("Call to undefined method {$method}", 1);
 
     }
 
