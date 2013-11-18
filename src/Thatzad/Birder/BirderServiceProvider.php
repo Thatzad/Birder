@@ -30,10 +30,11 @@ class BirderServiceProvider extends ServiceProvider {
 	 */
 	public function register()
 	{
-		$this->app['birder'] = $this->app->share(function($app)
+    	// Larafeed Service Provider
+    	$this->app->register('DotZecker\Larafeed\LarafeedServiceProvider');
+
+        $this->app['birder'] = $this->app->share(function($app)
         {
-        	// Larafeed Service Provider
-        	$app->register('DotZecker\Larafeed\LarafeedServiceProvider');
 
         	$birderConfig = $app['config']['birder::twitter'];
         	$config = array(

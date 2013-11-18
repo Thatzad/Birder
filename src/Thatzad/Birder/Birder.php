@@ -197,7 +197,7 @@ class Birder {
         if ( ! in_array($operator, $this->operators))
             throw new BirderException("{$operator} is not a valid operator" , 1);
 
-        if ( ! is_int($value))
+        if ( ! is_numeric($value))
             throw new BirderException("The value must be numeric, {$operator} given" , 1);
 
         $this->conditions[$type] = array(
