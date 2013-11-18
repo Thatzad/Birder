@@ -86,6 +86,9 @@ class Birder {
      */
     protected function setTweets($tweets)
     {
+        if (is_null($tweets))
+            throw new BirderException("Connection error", 1);
+
         $filteredTweets = array();
 
         foreach ($tweets as $tweet) {
