@@ -35,7 +35,6 @@ class BirderServiceProvider extends ServiceProvider {
 
         $this->app['birder'] = $this->app->share(function($app)
         {
-
         	$birderConfig = $app['config']['birder::twitter'];
         	$config = array(
 				'consumer_key'    => $birderConfig['consumer_key'],
@@ -60,7 +59,7 @@ class BirderServiceProvider extends ServiceProvider {
 	 */
 	public function provides()
 	{
-		return array();
+		return array('birder');
 	}
 
 }

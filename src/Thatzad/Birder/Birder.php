@@ -227,7 +227,9 @@ class Birder {
 
         if (starts_with($method, 'where')) {
             $filterBy = lcfirst(substr($method, 5, strlen($method)));
-            $args = array($filterBy, '=', $args[0]);
+
+            $args = ($filterBy == '') ? $args : array($filterBy, '=', $args[0]);
+
 
             return call_user_func_array(array($this, 'where'), $args);
         }
