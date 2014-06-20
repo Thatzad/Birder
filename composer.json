@@ -1,6 +1,6 @@
 {
     "name": "thatzad/birder",
-    "description": "Get and filter Tweets (by @user or #hashtag) in a Laravel Way",
+    "description": "Get and filter Tweets (by @user or #hashtag) in a fluent way",
     "keywords": ["tweet", "twitter", "filter", "laravel"],
     "license": "MIT",
     "authors": [
@@ -9,19 +9,12 @@
             "email": "dotzecker@gmail.com",
             "role": "Developer",
             "homepage": "http://rafa.im"
-        },
-        {
-            "name": "Iván Gallego Sánchez",
-            "email": "ivan.gallego@thatzad.com",
-            "role": "Lead developer",
-            "homepage": "http://www.thatzad.com"
         }
     ],
     "require": {
         "php": ">=5.3.0",
         "illuminate/support": "4.x",
-        "thujohn/twitter": "1.1.3",
-        "dotzecker/larafeed": "dev-master"
+        "thujohn/twitter": "1.1.3"
     },
     "autoload": {
         "psr-0": {
