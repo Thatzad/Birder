@@ -6,8 +6,7 @@ Birder
 Begin by installing this package through Composer. Edit your project's `composer.json` file to require `thatzad/birder`.
 
     "require": {
-        "laravel/framework": "4.0.*",
-        "thatzad/birder": "dev-master"
+        "thatzad/birder": "v1.*"
     },
 
 Next, update Composer from the Terminal:
