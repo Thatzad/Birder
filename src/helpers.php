@@ -38,12 +38,12 @@ function array_search_recursive($needle, $haystack, $firstKey = false)
  * @param  int $b
  * @return boolean
  */
-function doComparison($a, $operator, $b)
+function compare($a, $operator, $b)
 {
     switch ($operator) {
         case '<':  return ($a <  $b); break;
         case '<=': return ($a <= $b); break;
-        case '=':  return ($a == $b); break; // SQL way
+        case '=':  // SQL way
         case '==': return ($a == $b); break;
         case '!=': return ($a != $b); break;
         case '>=': return ($a >= $b); break;
@@ -51,4 +51,9 @@ function doComparison($a, $operator, $b)
     }
 
     throw new Exception("The {$operator} operator does not exists", 1);
+}
+
+function starts_with($haystack, $needle)
+{
+    return $needle === '' or strpos($haystack, $needle) === 0;
 }
