@@ -16,6 +16,9 @@
         "solution10/collection": "1.*",
         "vojant/twitter-php": "dev-master"
     },
+    "require-dev": {
+        "phpspec/phpspec": "~2.0"
+    },
     "autoload": {
         "psr-4": {
             "Thatzad\\Birder\\": "src"
