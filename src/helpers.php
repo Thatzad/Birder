@@ -1,12 +1,6 @@
 <?php
 
-/**
- * Search in array and return the parents keys
- * @param  midex   $needle
- * @param  array   $haystack
- * @param  boolean $firstKey
- * @return mixed
- */
+/** Search in array and return the parents keys */
 function array_search_recursive($needle, $haystack, $firstKey = false)
 {
     $keys = array();
@@ -33,9 +27,7 @@ function array_search_recursive($needle, $haystack, $firstKey = false)
 
 /**
  * Do a comparision
- * @param  int $a
- * @param  string $operator
- * @param  int $b
+ *
  * @return boolean
  */
 function doComparison($a, $operator, $b)
@@ -43,12 +35,12 @@ function doComparison($a, $operator, $b)
     switch ($operator) {
         case '<':  return ($a <  $b); break;
         case '<=': return ($a <= $b); break;
-        case '=':  return ($a == $b); break; // SQL way
+        case '=':  return ($a == $b); break;
         case '==': return ($a == $b); break;
         case '!=': return ($a != $b); break;
         case '>=': return ($a >= $b); break;
         case '>':  return ($a >  $b); break;
     }
 
-    throw new Exception("The {$operator} operator does not exists", 1);
+    throw new InvalidArgumentException("The {$operator} operator does not exists", 1);
 }

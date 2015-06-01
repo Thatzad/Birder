@@ -3,16 +3,7 @@ Birder
 
 ## Installation
 
-Begin by installing this package through Composer. Edit your project's `composer.json` file to require `thatzad/birder`.
-
-    "require": {
-        "laravel/framework": "4.0.*",
-        "thatzad/birder": "dev-master"
-    },
-
-Next, update Composer from the Terminal:
-
-    composer update
+Begin by installing this package through Composer. Go to your project folder from the terminal and execute: `composer require thatzad/birder`
 
 Once this operation completes, the next step is to add the service provider. Open `app/config/app.php`, and add a new item to the providers array.
 
@@ -20,13 +11,13 @@ Once this operation completes, the next step is to add the service provider. Ope
 
 And add the alias.
 
-    'Birder' => 'Thatzad\Birder\Facades\Birder'
+    'Birder' => 'Thatzad\Birder\Facades\BirderFacade'
 
 Finally you'll need to publish the config file. To do that, in the project folder execute:
 
-    php artisan config:publish thatzad/birder
+    php artisan vendor:publish
 
-This will output the configuration in `app/config/packages/thatzad/birder/config.php`. You must to fill all twitter fields.
+This will output the configuration in your config folder. You must to fill all twitter fields.
 
 ## Usage
 
@@ -44,7 +35,7 @@ Now, you want to get all tweets by the #Zelda hashtag that have more than 5 retw
         ->orWhere('favorites', '>', 6)
         ->get();
 
-This will return you a [Illuminate\Support\Collection](http://laravel.com/api/class-Illuminate.Support.Collection.html), by this way you'll be able to use all these methods.
+This will return you a [Illuminate\Support\Collection](http://laravel.com/api/5.0/Illuminate/Support/Collection.html), by this way you'll be able to use all these methods.
 
 ## Are you British or lazy?
 
@@ -55,12 +46,3 @@ You can use:
 `->where('favorites' ...)`, `->where('favourites' ...)`, `->where('favs' ...)`, `->whereFavourites(...)`, ...
 
 `->where('retweets' ...)`, `->where('rts' ...)`, `->whereRts(...)`, ...
-
-## Using with IFTTT
-
-We build Birder to avoid Twitter's IFTTT limits integrations.
-The way we thought this was to use the RSS IFTTT trigger to "imitate" a Twitter timeline. So, if you want to Tweet automatically all tweets @Thatzad account does, you are able to do:
-
-    return Birder::user('@Thatzad')->makeFeed();
-
-And this will you return a Feed where the link is the tweets status link, and the content the status itself.
